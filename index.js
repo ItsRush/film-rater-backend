@@ -9,6 +9,15 @@ const axios = require('axios')
 const apiKey = process.env.TMDB_API_KEY;
 const baseUrl = 'https://api.themoviedb.org/3';
 
+const corsOptions = {
+    origin: [
+      'https://film-rater-frontend.onrender.com', // Your production frontend URL
+      'http://localhost:3001',            // Your local development URL
+    ],
+    optionsSuccessStatus: 200
+}
+
+
 
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
@@ -18,9 +27,12 @@ const requestLogger = (request, response, next) => {
     next()
 }
 
+
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(requestLogger)
-app.use(cors())
+
+
 
 
 app.get('/api/popular', async (request, response) => {
